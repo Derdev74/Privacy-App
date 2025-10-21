@@ -272,5 +272,18 @@ class DataDeletionTool:
 
 
 if __name__ == "__main__":
-    app = DataDeletionTool()
-    app.main_menu()
+    try:
+        app = DataDeletionTool()
+        app.main_menu() # Put the main execution inside the try block
+    except Exception as e:
+        # Catch ANY exception that occurs
+        print("\n" + "="*60)
+        print("✗ CRITICAL ERROR IN CLI")
+        print("="*60)
+        import traceback
+        traceback.print_exc() # Print the full error traceback
+        print("="*60)
+        input("Press Enter to exit...") # Keep the window open
+    finally:
+        # Optional: Add any cleanup if needed
+        pass

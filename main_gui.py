@@ -752,6 +752,8 @@ class PrivacyToolGUI(ctk.CTk):
         return response and response.lower() == 'yes'
 
 
+# Near the end of main_gui.py
+
 def main():
     """Main entry point for the GUI application."""
     print("="*60)
@@ -759,9 +761,29 @@ def main():
     print("="*60)
     print("\nStarting graphical interface...")
 
-    app = PrivacyToolGUI()
-    app.mainloop()
-
+    # Wrap the app creation and main loop in a try...except block
+    try:
+        app = PrivacyToolGUI()
+        app.mainloop()
+    except Exception as e:
+        # If an error happens during initialization or the main loop
+        print("\n" + "="*60)
+        print("✗ CRITICAL ERROR IN GUI")
+        print("="*60)
+        import traceback
+        traceback.print_exc() # Print the full error traceback
+        print("="*60)
+        # Attempt to show a simple fallback error window if tkinter is minimally working
+        try:
+            import tkinter as tk
+            from tkinter import messagebox
+            root = tk.Tk()
+            root.withdraw() # Hide the main window
+            messagebox.showerror("Critical Error", f"An error occurred:\n\n{e}\n\nCheck the console for details.")
+            root.destroy()
+        except Exception as tk_error:
+            print(f"(Could not display Tkinter error message: {tk_error})")
+        input("Press Enter to exit...") # Keep the console open
 
 if __name__ == "__main__":
     main()

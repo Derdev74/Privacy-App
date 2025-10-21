@@ -8,6 +8,10 @@ import sys
 import os
 from pathlib import Path
 
+print(f"--- LAUNCHER INFO ---")
+print(f"Running from Python executable: {sys.executable}")
+print(f"Sys prefix (environment path): {sys.prefix}")
+print(f"--- END LAUNCHER INFO ---")
 
 def clear_screen():
     """Clear the terminal screen."""
