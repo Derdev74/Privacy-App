@@ -366,48 +366,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 ---
 
-## 📧 Support
-
-- **Issues**: [GitHub Issues](https://github.com/yourusername/privacy-deletion-tool/issues)
-- **Documentation**: See `/docs` folder for detailed guides
-- **Email**: privacy-tool-support@example.com
-
----
-
-## 🔮 Roadmap
-
-- [ ] Multi-account support (multiple Gmail addresses)
-- [ ] Export reports (PDF/CSV/JSON)
-- [ ] Community privacy contact database (opt-in)
-- [ ] Scheduled reply checking (cron jobs)
-- [ ] Email template customization in GUI
-- [ ] Support for other email providers (Outlook, ProtonMail)
-- [ ] Browser extension for one-click company addition
-- [ ] Mobile app (iOS/Android)
-
----
-
-## 📸 Screenshots
-
-### CLI Interface
-```
-🔐 PERSONAL DATA DELETION TOOL
-════════════════════════════════════════════════════════════
-1. Add/Manage Email Account
-2. Scan for Companies (Email Discovery)
-3. Find Privacy Contacts (Auto & Manual)
-4. Send Deletion Requests
-5. Check for Replies
-6. View Dashboard & Statistics
-7. Exit
-════════════════════════════════════════════════════════════
-```
-
-### Desktop GUI
-*Modern graphical interface with dark theme, statistics cards, and visual progress tracking.*
-
----
-
 <div align="center">
 
 **Your Privacy Matters** 🔐
