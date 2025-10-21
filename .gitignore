@@ -1,0 +1,71 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Environment variables (CONTAINS DATABASE PASSWORD!)
+.env
+.env.local
+.env.*
+!.env.example
+
+# OAuth credentials (NEVER commit these!)
+config/google_credentials.json
+config/microsoft_credentials.json
+config/*.json
+!config/.gitkeep
+crendentials.json
+credentials.json
+*credentials*.json
+
+# Database backups
+*.sql
+*.dump
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs (may contain sensitive data)
+*.log
+logs/
+log/
+
+# Local development files
+.claude/settings.local.json
+
+# Keyring data (contains OAuth tokens)
+keyring/
+*.keyring
+
+# Local database files (if using SQLite in future)
+*.db
+*.sqlite
+*.sqlite3
