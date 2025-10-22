@@ -112,11 +112,18 @@ def launch_cli():
         spec = importlib.util.spec_from_file_location("main", project_dir / "main.py")
         main_module = importlib.util.module_from_spec(spec)
 
-        # Execute the main module
+        # Execute the main module to load the DataDeletionTool class
         spec.loader.exec_module(main_module)
 
-        # The main.py should start its own loop and won't return here
-        # But if it does, we exit gracefully
+        # FIX: Now call the main function since __name__ != "__main__" when using importlib
+        # Create the app and start the main menu
+        print("    ✓ CLI module loaded successfully")
+        print("    ✓ Starting application...\n")
+        
+        app = main_module.DataDeletionTool()
+        app.main_menu()
+
+        # If we reach here (user exited), exit gracefully
         sys.exit(0)
 
     except ImportError as e:
@@ -164,11 +171,17 @@ def launch_gui():
         spec = importlib.util.spec_from_file_location("main_gui", project_dir / "main_gui.py")
         gui_module = importlib.util.module_from_spec(spec)
 
-        # Execute the main_gui module
+        # Execute the main_gui module to load classes
         spec.loader.exec_module(gui_module)
 
-        # The main_gui.py should start its own loop and won't return here
-        # But if it does, we exit gracefully
+        # FIX: Now call the main function since __name__ != "__main__" when using importlib
+        print("    ✓ GUI module loaded successfully")
+        print("    ✓ Starting application...\n")
+        
+        # Call the main function from main_gui
+        gui_module.main()
+
+        # If we reach here (GUI closed), exit gracefully
         sys.exit(0)
 
     except Exception as e:
