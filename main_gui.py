@@ -31,6 +31,12 @@ from request_sender import RequestSender
 from reply_tracker import ReplyTracker
 from logger import setup_logging, logger
 
+# NEW FEATURES - Phase 5 imports
+from broker_manager import BrokerManager
+from breach_monitor import BreachMonitor
+from osint_scanner import OSINTScanner
+import json
+
 
 # Set appearance mode and color theme
 ctk.set_appearance_mode("dark")  # Modes: "System" (default), "Dark", "Light"
@@ -79,7 +85,7 @@ class PrivacyToolGUI(ctk.CTk):
         """Create the sidebar navigation."""
         self.sidebar = ctk.CTkFrame(self, width=200, corner_radius=0)
         self.sidebar.grid(row=0, column=0, rowspan=2, sticky="nsew")
-        self.sidebar.grid_rowconfigure(8, weight=1)
+        self.sidebar.grid_rowconfigure(13, weight=1)  # Updated for new nav buttons
 
         # Logo/Title
         self.logo_label = ctk.CTkLabel(
@@ -100,16 +106,23 @@ class PrivacyToolGUI(ctk.CTk):
         btn_replies = self.create_nav_button("📬 Check Replies", 6, self.show_replies)
         btn_settings = self.create_nav_button("⚙️ Settings", 7, self.show_settings)
 
-        # Appearance mode switch
+        # NEW FEATURES - Navigation separator and buttons
+        self.create_nav_separator(8)
+        btn_exposure = self.create_nav_button("🛡️ Exposure Dashboard", 9, self.show_exposure_dashboard)
+        btn_breaches = self.create_nav_button("🔒 Check Breaches", 10, self.show_breach_scanner)
+        btn_osint = self.create_nav_button("🔍 OSINT Scan", 11, self.show_osint_scanner)
+        btn_brokers = self.create_nav_button("📋 Data Brokers", 12, self.show_data_brokers)
+
+        # Appearance mode switch (moved down to accommodate new buttons)
         self.appearance_label = ctk.CTkLabel(self.sidebar, text="Appearance:")
-        self.appearance_label.grid(row=9, column=0, padx=20, pady=(10, 0))
+        self.appearance_label.grid(row=14, column=0, padx=20, pady=(10, 0))
 
         self.appearance_mode = ctk.CTkOptionMenu(
             self.sidebar,
             values=["Dark", "Light", "System"],
             command=self.change_appearance_mode
         )
-        self.appearance_mode.grid(row=10, column=0, padx=20, pady=10)
+        self.appearance_mode.grid(row=15, column=0, padx=20, pady=10)  # Updated for new nav buttons
 
     def create_nav_button(self, text, row, command):
         """Create a navigation button."""
@@ -126,6 +139,11 @@ class PrivacyToolGUI(ctk.CTk):
         btn.grid(row=row, column=0, padx=20, pady=5, sticky="ew")
         self.nav_buttons.append(btn)
         return btn
+
+    def create_nav_separator(self, row):
+        """Create a visual separator in the navigation menu."""
+        separator = ctk.CTkFrame(self.sidebar, height=2, fg_color=("gray70", "gray30"))
+        separator.grid(row=row, column=0, padx=20, pady=10, sticky="ew")
 
     def create_main_area(self):
         """Create the main content area."""
