@@ -47,7 +47,7 @@ A local-first, privacy-preserving automation tool that helps you exercise your r
 - **Secure Token Storage**: OAuth tokens encrypted in OS keychain
 - **No Telemetry**: Zero tracking, no external analytics
 - **Open Source**: Fully auditable codebase
-- **Privacy-Preserving Scanning**: Email headers only, never body content
+- **Metadata-Only Scanning**: the inbox scanner fetches headers only (sender, subject, date), never message bodies (see [Limitations](#-limitations-and-lessons))
 
 ---
 
@@ -64,8 +64,8 @@ A local-first, privacy-preserving automation tool that helps you exercise your r
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/privacy-deletion-tool.git
-   cd privacy-deletion-tool
+   git clone https://github.com/Derdev74/Privacy-App.git
+   cd Privacy-App
    ```
 
 2. **Create virtual environment**
@@ -150,8 +150,8 @@ Your Gmail → Privacy Tool scans headers → Extracts sender domains → Stores
 ```
 - Uses Gmail API with `gmail.readonly` scope
 - Optimized query: `from:(-me) AND ("welcome to" OR "verify your email"...)`
-- Fetches only metadata (sender, subject, date)
-- **Privacy guarantee**: Email content is never accessed
+- Fetches only metadata (sender, subject, date) with `format='metadata'`
+- The scanner never downloads message bodies. Note that the `gmail.readonly` scope would technically allow it (see [Limitations](#-limitations-and-lessons))
 
 ### 2. **Contact Discovery**
 ```
@@ -175,6 +175,7 @@ Template selection → Generate personalized emails → Send via Gmail API → L
 ```
 Check Gmail threads → Analyze reply content → Categorize by keywords → Update status in database
 ```
+- Reads the **full text of replies** in the threads of your deletion requests (and only those threads), to classify them
 - Keyword matching:
   - "deleted", "removed" → **COMPLETED**
   - "received your request", "processing" → **REPLIED**
@@ -227,13 +228,13 @@ privacy-deletion-tool/
 - Email metadata (message IDs, thread IDs, dates)
 
 ### What Data Is NEVER Collected?
-- ❌ Email body content
+- ❌ Body content of your other emails (only replies to your deletion requests are read)
 - ❌ Personal conversations
 - ❌ Passwords or payment information
 - ❌ Telemetry or usage analytics
 
 ### OAuth Scopes
-- `gmail.readonly`: Read email headers for company discovery
+- `gmail.readonly`: read access to Gmail. The scanner uses it for headers only; the reply tracker uses it to read replies to your requests
 - `gmail.send`: Send deletion request emails
 
 **You can revoke access anytime** at [Google Account Permissions](https://myaccount.google.com/permissions)
@@ -338,6 +339,18 @@ pip install -r requirements-dev.txt  # Additional dev dependencies
 
 ---
 
+## ⚠️ Limitations and lessons
+
+This project works only partly, and building it taught me more about the problem than about the solution:
+
+- **Finding privacy contacts is unreliable.** The scraper finds a usable privacy contact for only about 40–70% of companies; many hide it behind web forms or in long privacy policies.
+- **Data brokers are invisible from the inbox.** The companies that hold the most data about you (data brokers) have usually never emailed you, so inbox scanning cannot find them.
+- **Many companies require web forms and identity checks.** An email request is often answered with "please use our form" or "please verify your identity", which this tool cannot automate.
+- **The OAuth scope is broader than needed for scanning.** The app requests `gmail.readonly` because the reply tracker reads replies. A stricter design would use `gmail.metadata` for scanning (which blocks body access entirely) and ask for broader access only for request threads.
+- **Reply classification is keyword-based**, so unusual wording is often misclassified and needs manual review.
+
+---
+
 ## ⚖️ Legal
 
 ### GDPR (EU)
@@ -372,6 +385,6 @@ MIT License - see [LICENSE](LICENSE) file for details.
 
 Made with ❤️ for a more privacy-respecting internet
 
-[Report Bug](https://github.com/yourusername/privacy-deletion-tool/issues) · [Request Feature](https://github.com/yourusername/privacy-deletion-tool/issues) · [Donate](https://github.com/sponsors/yourusername)
+[Report Bug](https://github.com/Derdev74/Privacy-App/issues) · [Request Feature](https://github.com/Derdev74/Privacy-App/issues)
 
 </div>
